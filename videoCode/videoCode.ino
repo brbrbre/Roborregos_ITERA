@@ -10,6 +10,15 @@
 #define MAX_DISTANCE 200 
 #define MAX_SPEED 190 
 #define MAX_SPEED_OFFSET 20
+#define NOTE_C4  262
+#define NOTE_D4  294
+#define NOTE_E4  330
+#define NOTE_F4  349
+#define NOTE_G4  392
+#define NOTE_A4  440
+#define NOTE_B4  494
+#define NOTE_C5  523
+
 
 NewPing sonar(TRIG_PIN, ECHO_PIN, MAX_DISTANCE); 
 
@@ -22,6 +31,36 @@ Servo myservo;
 boolean goesForward=false;
 int distance = 100;
 int speedSet = 0;
+int melody[] = {
+  NOTE_C4, NOTE_C4, NOTE_G4, NOTE_G4,
+  NOTE_A4, NOTE_A4, NOTE_G4,
+  NOTE_F4, NOTE_F4, NOTE_E4, NOTE_E4,
+  NOTE_D4, NOTE_D4, NOTE_C4
+};
+
+int durations[] = {
+  4, 4, 4, 4,
+  4, 4, 2,
+  4, 4, 4, 4,
+  4, 4, 2
+};
+void playTwinkle() {
+  for (int i = 0; i < sizeof(melody)/sizeof(int); i++) {
+    int noteDuration = 1000 / durations[i];
+    tone(8, melody[i], noteDuration);
+    delay(noteDuration * 1.3);
+    noTone(8);
+  }
+}
+void followHand() {
+  int d = readPing();
+  if (d >= 10 && d <= 20) {
+    moveForward();
+  } else {
+    moveStop();
+  }
+}
+
 
 void setup() {
 
