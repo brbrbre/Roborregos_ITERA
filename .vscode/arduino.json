@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:uno",
+    "port": "COM21",
+    "sketch": "videoCode\\videoCode.ino"
+}
